@@ -8026,7 +8026,16 @@ $(INTERNAL_FINDBUGS_HTML_TARGET): $(INTERNAL_FINDBUGS_XML_TARGET)
 # -----------------------------------------------------------------
 # These are some additional build tasks that need to be run.
 ifneq ($(dont_bother),true)
-include $(sort $(wildcard $(BUILD_SYSTEM)/tasks/*.mk))
+# Kernel-only downstream: do not include test-suite tasks (CTS/VTS/STS/
+# tradefed).  They require the Android framework, JDK and system image
+# tooling that are intentionally not part of the kernel build manifest, and
+# they never produce a prerequisite of kernel, dtbimage, dtboimage or
+# *_dlkmimage.  Keep this list in sync when adding a new test-suite task.
+KERNEL_ONLY_EXCLUDED_TASKS := \
+    automotive-general-tests autorepro catbox csuite cts cts_root dts \
+    general-tests mcts mts prebuilt_tradefed sts tradefed-tests-list \
+    vts-core-tests wvts
+include $(sort $(filter-out $(addprefix $(BUILD_SYSTEM)/tasks/,$(addsuffix .mk,$(KERNEL_ONLY_EXCLUDED_TASKS))),$(wildcard $(BUILD_SYSTEM)/tasks/*.mk)))
 -include $(sort $(wildcard vendor/*/build/tasks/*.mk))
 -include $(sort $(wildcard device/*/build/tasks/*.mk))
 -include $(sort $(wildcard product/*/build/tasks/*.mk))
