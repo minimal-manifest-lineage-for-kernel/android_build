@@ -363,7 +363,6 @@ python_binary_host {
 python_binary_host {
     name: "build_image",
     defaults: [
-        "releasetools_binary_defaults",
         "releasetools_build_image_defaults",
     ],
 }

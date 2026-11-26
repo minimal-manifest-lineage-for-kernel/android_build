@@ -325,7 +325,7 @@ $(call add_json_bool, GenerateAidlNdkPlatformBackend, $(filter true,$(NEED_AIDL_
 
 $(call add_json_bool, IgnorePrefer32OnDevice, $(filter true,$(IGNORE_PREFER32_ON_DEVICE)))
 
-$(call add_json_list, SourceRootDirs,             $(PRODUCT_SOURCE_ROOT_DIRS))
+$(call add_json_list, SourceRootDirs,             $(PRODUCT_SOURCE_ROOT_DIRS) -system/security/keystore2)
 
 $(call add_json_list, AfdoProfiles,                $(ALL_AFDO_PROFILES))
 
